@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Blackjack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="div">
+    <div id="message-div">
+      <ul id="messages-box">
+      </ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" /><button id="button">SEND</button>
+      </form>
+    </div>
+    <div class="game-body">
+      <h2>BLACKJACK</h2>
+      <div class="game-options">
+        <img src="img/hit0.png" width="45px" height="45px" class="btn" onclick="hit()">
+        <img src="img/stay0.png" width="45px" height="45px" class="btn" onclick="stay()">
+      </div>
+      <div class="status" id="status"></div>
+      <div id="players" class="players"></div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</body>
+
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+
+</html>

@@ -1,0 +1,167 @@
+*{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#div{
+  display: flexbox;
+  justify-content: center;
+  align-content: center;
+}
+
+.game-body{
+  left: 0;
+  padding: 10px 0;
+  max-width: 69%;
+  background-color: maroon;
+  text-align: center;
+  border: solid 4px black;
+}
+
+.game-body h2{
+  position: relative;
+  background-color: black;
+  color: goldenrod;
+  border: solid 2px black;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 8px;
+  margin: 0 auto;
+  width: 35%;
+  font-size: 200%;
+}
+
+.game-options{
+  background-color: black;
+  padding: 8px;
+  margin: 0 auto;
+}
+
+
+
+.btn{
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.players{
+  margin: 20px 0 14px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.player{
+  font-weight: bold;
+  width: 40%;
+  max-width: 360px;
+  border: solid 6px rgb(231, 192, 101);
+  border-radius: 10px;
+  margin: 10px auto;
+  background: rgb(231, 192, 101);
+}
+
+.player.active{
+  font-weight: bold;
+  width: 40%;
+  max-width: 360px;
+  border: solid 6px red;
+  border-radius: 10px;
+  margin: 10px auto;
+  background: rgb(231, 192, 101);
+}
+
+.game-body .status{
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+  background: gold;
+  border: solid 2px white;
+  border-radius: 10px;
+  text-align: center;
+  margin: 50px auto;
+  padding: 2% 6%;
+  display:none;
+}
+
+.card{
+  width: 18%;
+  max-width: 45px;
+  padding: 10px;
+  border: solid 2px #000000;
+  background-color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: 16pt;
+  text-align: center;
+  margin: 8px;
+}
+
+.points{
+  text-align: center;
+  font-size: 20pt;
+  font-weight: bold;
+  margin: 10px;
+}
+
+
+#message-div{
+  background-color: maroon;
+  width: 30%;
+  position: absolute;
+  right: 0;
+  display: table;
+  height: 200px;
+  border: solid 4px black;
+  padding-bottom: 34px;
+}
+
+#form {
+  display: inline-block;
+}
+
+#input {
+  position: absolute;
+  display: inline;
+  border: solid 2px black;
+  width: 79%;
+  margin: 2px 0 0 0;
+  padding-bottom: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#input:focus{
+  outline: none;
+}
+
+#button{
+  background-color: white;
+  position: absolute;
+  width: 20%;
+  height: 36px;
+  right: 0;
+  margin-top: 2px;
+  border: solid 2px black;
+}
+
+#button:focus{
+  outline: auto 2px goldenrod;
+}
+
+#messages-box{
+  list-style-type: none;
+}
+
+li{
+  margin: 0 0 0 -40px;
+  padding: 0;
+  left: 0;
+  color: rgb(184, 137, 18);
+}
+
+li:nth-child(odd){
+  background-color: rgb(148, 5, 5);
+}
+
