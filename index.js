@@ -1,7 +1,6 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/');
 });
@@ -15,7 +14,7 @@ var currentPlayer = 0;
 var suits = ["Spades", "Hearts", "Diamonds", "Clubs"];
 var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
 
-var isGameRunning;
+var isGameRunning = false;
 
 function playerNums() {
   if (players.length > 0) {
@@ -88,14 +87,15 @@ function waitingForPlayers() {
       startblackjack();
       clearInterval(waitingForPlayersInterval);
     }
-  }, 5000)
+    else{
+      io.emit("waiting");
+    }
+  }, 2000)
 }
 
 waitingForPlayers();
 
 function dealHands() {
-  // alternate handing cards to each player
-  // 2 cards each
   for (var i = 0; i < 2; i++) {
     for (var x = 0; x < players.length; x++) {
       var card = deck.pop();

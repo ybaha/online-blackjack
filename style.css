@@ -37,10 +37,15 @@
 }
 
 
-
 .btn{
   cursor: pointer;
   margin: 0 10px;
+}
+
+#waiting{
+  color: goldenrod;
+  font-size: larger;
+  margin: 10% auto;
 }
 
 .players{

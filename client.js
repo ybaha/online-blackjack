@@ -2,6 +2,11 @@
 const input = document.getElementById("input");
 const form = document.getElementById("form");
 const messagesBox = document.getElementById("messages-box");
+const playersD = document.getElementById("players");
+const players_div = document.getElementsByClassName("players");
+const statusDiv = document.getElementById("status");
+const buttons = document.getElementsByClassName("btn");
+const waitingDiv = document.getElementById("waiting");
 
 let messages = [];
 
@@ -12,7 +17,7 @@ var name = prompt("enter your name");
 socket.emit("connection", name)
 
 form.addEventListener("submit", (e) => {
-  e.preventDefault(); // prevents page reloading
+  e.preventDefault();
   const msg = input.value;
   socket.emit("chat-message", { message: msg, username: name })
   input.value = ""
@@ -41,7 +46,7 @@ var me;
 var currentPlayer;
 
 function refreshPlayersCards() {
-  let players_div = document.getElementsByClassName("players");
+
   if (players_div.childNodes != undefined) {
     for (let i = 0; i < players_div.length; i++) {
       players_div.childNodes[i].remove();
@@ -49,16 +54,21 @@ function refreshPlayersCards() {
   }
 }
 
+socket.on("waiting", ()=>{
+  waitingDiv.style.display = "inline-block"
+  statusDiv.style.display = "none"
+})
+
 socket.on("start-game", (data) => {
-  let playersD = document.getElementById("players");
+  
   refreshPlayersCards();
-  // currentplayer deck players datası
+  // (currentplayer, deck, players) data
   playersD.style.display = "flex";
   players = data.players;
   deck = data.deck;
   currentPlayer = data.currentPlayer;
-
-  document.getElementById("status").style.display = "none";
+  waitingDiv.style.display = "none";
+  statusDiv.style.display = "none";
   // deal 2 cards to every player object
   createPlayersUI();
   dealHands();
@@ -66,7 +76,7 @@ socket.on("start-game", (data) => {
   document.getElementById('player_' + data.currentPlayer).classList.add('active');
 })
 function createPlayersUI() {
-  document.getElementById('players').innerHTML = '';
+  playersD.innerHTML = '';
   for (var i = 0; i < players.length; i++) {
     var div_player = document.createElement('div');
     var div_playerid = document.createElement('div');
@@ -84,7 +94,7 @@ function createPlayersUI() {
     div_player.appendChild(div_hand);
     div_player.appendChild(div_points);
 
-    document.getElementById('players').appendChild(div_player);
+    playersD.appendChild(div_player);
   }
 }
 
@@ -95,7 +105,6 @@ function isMyTurn() {
       return e;
     }
   })
-  var buttons = document.getElementsByClassName("btn");
 
   if (me[0].num != currentPlayer) {
     for (let i = 0; i < buttons.length; i++)
@@ -173,7 +182,6 @@ function stay() {
   }
   //oyuncu sonuncu kisi ise
   else {
-    let buttons = document.getElementsByClassName("btn");
     for (let i = 0; i < buttons.length; i++) {
       buttons[i].style.display = "none";
     }
@@ -183,7 +191,6 @@ function stay() {
 
 socket.on("cur-update", (cP) => {
   currentPlayer = cP;
-  var playersD = document.getElementById("players");
   for(let i = 0; i < playersD.childNodes.length; i++){
     playersD.childNodes[i].className = "player"
   }
@@ -228,11 +235,8 @@ socket.on("disconnect-update", (playersData) => {
 })
 
 function end(winner) {
-  var status = document.getElementById('status');
-  var playersD = document.getElementById('players');
-
-  status.innerHTML = 'Winner: ' + players[winner].name;
-  status.style.display = "inline-block";
+  statusDiv.innerHTML = 'Winner: ' + players[winner].name;
+  statusDiv.style.display = "inline-block";
   playersD.style.display = "none";
 }
 
