@@ -190,8 +190,8 @@ function endGame() {
   for (let i = 0; i < players.length; i++) {
     if (players[i].Points > score && players[i].Points < 22) {
       winner = i;
+      score = players[i].Points;
     }
-    score = players[i].Points;
   }
   isGameRunning = false;
   if((players.length+playersInQueue.length) > 1){

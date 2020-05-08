@@ -32,14 +32,14 @@
 
 .game-options{
   background-color: black;
-  padding: 8px;
   margin: 0 auto;
+  height: 60px;
 }
 
 
 .btn{
   cursor: pointer;
-  margin: 0 10px;
+  margin: 8px 10px;
 }
 
 #waiting{

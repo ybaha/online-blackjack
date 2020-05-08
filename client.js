@@ -235,7 +235,12 @@ socket.on("disconnect-update", (playersData) => {
 })
 
 function end(winner) {
-  statusDiv.innerHTML = 'Winner: ' + players[winner].name;
+  if(winner == -1){
+    statusDiv.innerHTML = "Draw"
+  }
+  else{
+    statusDiv.innerHTML = "Winner: " + players[winner].name;
+  }
   statusDiv.style.display = "inline-block";
   playersD.style.display = "none";
 }
