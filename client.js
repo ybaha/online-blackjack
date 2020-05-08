@@ -10,7 +10,7 @@ const waitingDiv = document.getElementById("waiting");
 
 let messages = [];
 
-var socket = io("localhost:3000");
+var socket = io();
 
 var name = prompt("enter your name");
 
