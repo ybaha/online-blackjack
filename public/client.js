@@ -24,10 +24,6 @@ form.addEventListener("submit", (e) => {
 });
 
 socket.on("connection", (msgs)=>{
-  console.log("msjlar geldi");
-  console.log(msgs);
-  
-  
   messages = msgs;
   displayMessages(msgs);
 })
@@ -45,6 +41,13 @@ var deck = [];
 var me;
 var currentPlayer;
 
+
+me = players.filter((e) => {
+  if (name == e.name) {
+    return e;
+  }
+})
+
 function refreshPlayersCards() {
 
   if (players_div.childNodes != undefined) {
@@ -55,8 +58,10 @@ function refreshPlayersCards() {
 }
 
 socket.on("waiting", ()=>{
-  waitingDiv.style.display = "inline-block"
-  statusDiv.style.display = "none"
+  waitingDiv.style.display = "inline-block";
+  statusDiv.style.display = "none";
+  buttons[0].style.display = "none";
+  buttons[1].style.display = "none";
 })
 
 socket.on("start-game", (data) => {
@@ -75,6 +80,7 @@ socket.on("start-game", (data) => {
   isMyTurn();
   document.getElementById('player_' + data.currentPlayer).classList.add('active');
 })
+
 function createPlayersUI() {
   playersD.innerHTML = '';
   for (var i = 0; i < players.length; i++) {
@@ -170,7 +176,6 @@ function updatePoints() {
 
 function hit() {
   socket.emit("hit", me)
-
 }
 
 function stay() {

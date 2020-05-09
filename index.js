@@ -72,7 +72,9 @@ function shuffle() {
   }
 }
 
-function startblackjack() {
+
+
+function startGame() {
   // deal 2 cards to every player object
   isGameRunning = true;
   currentPlayer = 0;
@@ -86,15 +88,37 @@ function startblackjack() {
   createDeck();
   shuffle();
   dealHands();
+  stopTimeout();
+  startTimeout();
+  io.emit("start-game", { deck, players, currentPlayer, players });
+  console.log();
+}
 
-  io.emit("start-game", { deck, players, currentPlayer, players })
+let afkTimeout;
+
+function startTimeout(){
+  afkTimeout = setTimeout(() => {
+    if (currentPlayer < players.length - 1) {
+      currentPlayer++;
+      io.emit("cur-update", currentPlayer);
+      clearTimeout(afkTimeout);
+      startTimeout();
+    }
+    else if (currentPlayer == players.length -1){
+      io.emit("end", endGame());
+    }
+  },7000);
+}
+
+function stopTimeout(){
+  clearTimeout(afkTimeout);
 }
 
 function waitingForPlayers() {
   var waitingForPlayersInterval = setInterval(() => {
     if (players.length > 1) {
       console.log("oyun basladi");
-      startblackjack();
+      startGame();
       clearInterval(waitingForPlayersInterval);
     }
     else{
@@ -132,7 +156,9 @@ function updatePoints() {
 }
 io.on("connection", (socket) => {
   socket.on("hit", (me) => {
-    console.log(me.name + " hitted");
+    stopTimeout()
+    startTimeout()
+    console.log(me[0].name + " hitted");
     var card = deck.pop();
     players[currentPlayer].Hand.push(card);
     updatePoints();
@@ -142,6 +168,8 @@ io.on("connection", (socket) => {
     }
   })
   socket.on("stay", (cP) => {
+    stopTimeout()
+    startTimeout()
     stay();
   })
   socket.on("game-over", () => {
@@ -214,16 +242,10 @@ function endGame() {
 }
 
 function startNewGame() {
-  let i = 6;
-  let interval = setInterval(() => {
-    if (i < 0) {
-      isGameRunning = true;
-      startblackjack();
-      clearInterval(interval)
-    }
-    else
-      i--;
-  }, 1000)
+  setTimeout(() => {
+    isGameRunning = true;
+    startGame();
+  }, 3000);
 }
 
 
