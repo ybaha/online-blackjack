@@ -79,12 +79,13 @@ function startGame() {
   isGameRunning = true;
   currentPlayer = 0;
   players = players.concat(playersInQueue);
+  playersInQueue = [];
 
   for (let i = 0; i < players.length; i++) {
     players[i].Points = 0;
     players[i].Hand = [];
   }
-
+  playerNums();
   createDeck();
   shuffle();
   dealHands();
@@ -180,8 +181,9 @@ io.on("connection", (socket) => {
     if (isGameRunning == true) {
       let player = { name: username, id: socket.id, Points: 0, Hand: hand, num: 0 };
       playersInQueue.push(player);
+      playerNums();
     }
-    else {
+    else if(isGameRunning == false) {
       let player = { name: username, id: socket.id, Points: 0, Hand: hand, num: 0 };
       players.push(player);
       playerNums();
