@@ -11,7 +11,8 @@
 .game-body{
   left: 0;
   padding: 10px 0;
-  max-width: 69%;
+  width: 69%;
+  display: inline-block;
   background-color: maroon;
   text-align: center;
   border: solid 4px black;
@@ -31,9 +32,20 @@
 }
 
 .game-options{
+  position: relative;
   background-color: black;
   margin: 0 auto;
   height: 60px;
+}
+
+#online-players{
+  position: absolute;
+  background-color: chocolate;
+  width: 15%;
+  right: 0;
+  height: 60px;
+  text-align: left;
+  color:red;
 }
 
 

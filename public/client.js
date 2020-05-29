@@ -7,6 +7,7 @@ const players_div = document.getElementsByClassName("players");
 const statusDiv = document.getElementById("status");
 const buttons = document.getElementsByClassName("btn");
 const waitingDiv = document.getElementById("waiting");
+const onlinePlayers = document.getElementById("online-players")
 
 let messages = [];
 
@@ -67,13 +68,15 @@ socket.on("waiting", ()=>{
 socket.on("start-game", (data) => {
   
   refreshPlayersCards();
-  // (currentplayer, deck, players) data
+  // data == (currentplayer, deck, players)
   playersD.style.display = "flex";
   players = data.players;
   deck = data.deck;
   currentPlayer = data.currentPlayer;
   waitingDiv.style.display = "none";
   statusDiv.style.display = "none";
+  // displaying active players count
+  onlinePlayers.innerHTML = "online players: " + data.players.length;
   // deal 2 cards to every player object
   createPlayersUI();
   dealHands();
@@ -226,6 +229,7 @@ socket.on("update-cards", (data) => {
 socket.on("disconnect-update", (playersData) => {
   console.log("remaining");
   console.log(playersData);
+  onlinePlayers.innerHTML = "online players: " + playersData.length;
   players = playersData;
   if (players.length > 1) {
     createPlayersUI();

@@ -1,3 +1,6 @@
+    
+
+
 var express = require('express');
 var app = express();
 var http = require('http').createServer(app);
@@ -8,6 +11,11 @@ app.use(express.static('public'));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/i', (req, res) => {
+  res.sendFile(__dirname + '/index.js');
+  app.use(express.static('/index.js'));
 });
 
 http.listen(PORT, () => {
@@ -42,6 +50,20 @@ setInterval(() => {
   if(isGameRunning == true && players.length < 1){
     endGame();
   }
+  console.log("--------------------- \n currentP: " + currentPlayer);
+  for(let i = 0; i < players.length; i++){
+    if(i == players.length - 1)
+      console.log("oyunda: " + players[i].name + "\n")
+    else
+      console.log("oyunda: " + players[i].name)
+  }
+  for(let i = 0; i < playersInQueue.length; i++){
+    if(i == playersInQueue.length - 1)
+      console.log("sirada: "+playersInQueue[i].name + "\n")
+    else
+      console.log("sirada: "+playersInQueue[i].name)
+  }
+
 },2000)
 
 
@@ -76,6 +98,7 @@ function shuffle() {
 
 function startGame() {
   // deal 2 cards to every player object
+
   isGameRunning = true;
   currentPlayer = 0;
   players = players.concat(playersInQueue);
@@ -196,8 +219,10 @@ io.on("connection", (socket) => {
     messages.push(data);
     io.emit("chat-message", messages);
   });
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (reason) => {
+    console.log(reason)
     players = players.filter(players => players.id != socket.id)
+    playersInQueue = playersInQueue.filter(players => players.id != socket.id)
     playerNums();
 
     io.emit("disconnect-update", players);
